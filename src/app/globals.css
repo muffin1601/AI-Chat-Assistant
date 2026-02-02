@@ -3,3 +3,18 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root{
+    --bg-main: #0b0b12;
+--bg-panel: #11111a;
+--bg-elevated: #181827;
+
+--accent-purple: #7c3aed;
+--accent-pink: #ec4899;
+
+--text-main: #e5e7eb;
+--text-muted: #9ca3af;
+
+--border-subtle: rgba(255,255,255,0.08);
+
+}

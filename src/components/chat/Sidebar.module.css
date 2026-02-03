@@ -1,0 +1,45 @@
+.sidebar {
+  width: 260px;
+  background: #0f1220;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.nav a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+.nav a:hover {
+  background: #1a1f36;
+}
+
+.active {
+  background: #1a1f36;
+  color: #fff;
+}
+
+.footer {
+  margin-top: auto;
+}
+
+.upgrade {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7c5cff, #a78bfa);
+  color: white;
+  border: none;
+  cursor: pointer;
+}

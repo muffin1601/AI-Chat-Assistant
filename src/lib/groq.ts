@@ -7,7 +7,6 @@ export async function groqChat(messages: any[]) {
     },
     body: JSON.stringify({
       model: "llama-3.1-8b-instant",
-      
       messages,
     }),
   })

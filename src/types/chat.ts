@@ -1,3 +1,4 @@
+
 export type Mode = "chat" | "rag"
 
 export type Message = {

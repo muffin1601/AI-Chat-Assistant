@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  margin: 16px;
+  background: var(--bg-input);
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.wrapper input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: white;
+  outline: none;
+  padding: 8px;
+}
+
+.wrapper button {
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  color: white;
+  cursor: pointer;
+}

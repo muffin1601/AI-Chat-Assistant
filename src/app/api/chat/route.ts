@@ -1,13 +1,16 @@
-import { NextResponse } from "next/server"
-import { groqChat } from "@/lib/groq"
+import { NextResponse } from "next/server";
+import { groqStream, ChatMessage } from "@/lib/groq";
 
 export async function POST(req: Request) {
-  const { message } = await req.json()
+  const { messages }: { messages: ChatMessage[] } = await req.json();
 
-  const reply = await groqChat([
-    { role: "system", content: "You are a helpful assistant." },
-    { role: "user", content: message },
-  ])
+  const stream = await groqStream(messages);
 
-  return NextResponse.json({ reply })
+  return new NextResponse(stream, {
+    headers: {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+    },
+  });
 }

@@ -1,0 +1,33 @@
+.row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.bubble {
+  max-width: 760px;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.cursor {
+  margin-left: 2px;
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}

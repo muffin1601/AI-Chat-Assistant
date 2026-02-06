@@ -1,10 +1,12 @@
-import ChatShell from "@/components/chat/ChatShell"
-import styles from "./page.module.css"
+import Sidebar from "@/components/sidebar/Sidebar";
+import ChatArea from "@/components/chat/ChatArea";
+import styles from "./page.module.css";
 
 export default function Page() {
   return (
-    <div className={styles.page}>
-      <ChatShell />
+    <div className={styles.app}>
+      <Sidebar />
+      <ChatArea />
     </div>
-  )
+  );
 }

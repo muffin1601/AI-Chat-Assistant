@@ -1,12 +1,17 @@
 :root {
-  --bg-main: #0f172a;
-  --bg-panel: #020617;
-  --bg-message-user: #2563eb;
-  --bg-message-bot: #1e293b;
-  --text-primary: #e5e7eb;
-  --text-secondary: #94a3b8;
-  --border-color: #1e293b;
-  --accent: #3b82f6;
+  --bg-main: #0f172a;        
+--bg-panel: #111827;      
+--bg-chat: #0b1220;       
+--bg-input: #111827;
+
+--border-soft: #1f2937;
+
+--text-primary: #e5e7eb;
+--text-secondary: #9ca3af;
+
+--accent: #7c6cff;        
+--accent-hover: #6b5cff;
+
 }
 
 * {

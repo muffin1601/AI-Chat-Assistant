@@ -1,5 +1,5 @@
 .app {
   display: flex;
   height: 100vh;
-  background: var(--bg-main);
+  background: transparent;
 }

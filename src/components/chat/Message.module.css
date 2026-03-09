@@ -1,33 +1,99 @@
 .row {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   margin-bottom: 24px;
+  animation: fadeIn 0.4s ease-out forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rowUser {
+  flex-direction: row-reverse;
 }
 
 .avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #1e293b;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.avatarAi {
+  background: linear-gradient(135deg, #2a2a35, #14141c);
+  border: 1px solid var(--border-focus);
+  color: var(--accent);
+}
+
+.avatarUser {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  color: #000;
 }
 
 .bubble {
-  max-width: 760px;
-  line-height: 1.7;
-  color: var(--text-primary);
+  max-width: 80%;
+  line-height: 1.6;
+  font-size: 15px;
+  padding: 16px 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  letter-spacing: 0.3px;
+  color: #fff;
+}
+
+.bubbleAi {
+  background: var(--ai-bubble);
+  border-top-left-radius: 4px;
+  border: 1px solid var(--border-soft);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.bubbleUser {
+  background: var(--user-bubble);
+  border-top-right-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .cursor {
-  margin-left: 2px;
+  margin-left: 4px;
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background-color: var(--accent);
+  vertical-align: middle;
   animation: blink 1s steps(2, start) infinite;
+  box-shadow: 0 0 8px var(--accent-glow);
 }
 
 @keyframes blink {
   to {
     visibility: hidden;
   }
+}
+
+.citation {
+  display: inline-block;
+  background: rgba(var(--accent-rgb), 0.1);
+  color: var(--accent);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  margin: 0 4px;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  cursor: help;
 }

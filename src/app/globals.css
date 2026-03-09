@@ -1,21 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
 :root {
-  --bg-main: #0f172a;        
---bg-panel: #111827;      
---bg-chat: #0b1220;       
---bg-input: #111827;
+  --bg-main-base: #050505;
+  --bg-panel: rgba(20, 20, 20, 0.4);
+  --bg-chat: rgba(20, 20, 20, 0.2);
+  --bg-input: rgba(30, 30, 30, 0.6);
 
---border-soft: #1f2937;
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(255, 255, 255, 0.15);
 
---text-primary: #e5e7eb;
---text-secondary: #9ca3af;
+  --text-primary: #f3f4f6;
+  --text-secondary: #a1a1aa;
 
---accent: #7c6cff;        
---accent-hover: #6b5cff;
+  --accent: #d4af37;
+  /* Luxury Gold */
+  --accent-rgb: 212, 175, 55;
+  --accent-hover: #c5a028;
+  --accent-glow: rgba(212, 175, 55, 0.4);
 
+  --user-bubble: #1f1f1f;
+  --ai-bubble: rgba(15, 15, 15, 0.6);
 }
 
 * {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 html,
@@ -23,9 +32,35 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: var(--bg-main);
+  background-color: var(--bg-main-base);
   color: var(--text-primary);
-  font-family: Inter, system-ui, sans-serif;
+  font-family: 'Outfit', Inter, system-ui, sans-serif;
+  overflow: hidden;
+}
+
+/* Luxury Animated Background */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.08), transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.03), transparent 50%);
+  z-index: -1;
+  pointer-events: none;
+  animation: bg-shift 20s ease-in-out infinite alternate;
+}
+
+@keyframes bg-shift {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.05);
+  }
 }
 
 button {
@@ -33,10 +68,31 @@ button {
   background: none;
   color: inherit;
   cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 input,
 textarea {
   font-family: inherit;
   color: inherit;
+  transition: all 0.3s ease;
+}
+
+/* Custom Scrollbar for Luxury Feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }

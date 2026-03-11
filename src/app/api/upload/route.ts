@@ -16,13 +16,16 @@ export async function POST(req: NextRequest) {
         let text = "";
         if (fileName.endsWith(".pdf")) {
             text = await extractTextFromPDF(buffer);
+        } else if (fileName.endsWith(".docx")) {
+            const { extractTextFromDocx } = await import("@/lib/rag-utils");
+            text = await extractTextFromDocx(buffer);
         } else {
             text = buffer.toString('utf-8');
         }
 
         const chunks = await chunkDocument(text);
 
-        globalVectorStore.addDocuments(chunks.map((c: any) => ({
+        await globalVectorStore.addDocuments(chunks.map((c: any) => ({
             pageContent: c.pageContent,
             metadata: { ...c.metadata, source: fileName }
         })));
@@ -30,8 +33,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({
             success: true,
             message: `Processed ${chunks.length} chunks from ${fileName}`,
-            chunkCount: chunks.length,
-            totalDocuments: globalVectorStore.getCount()
+            chunkCount: chunks.length
         });
     } catch (error: any) {
         console.error("Upload error:", error);

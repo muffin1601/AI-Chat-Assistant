@@ -15,7 +15,7 @@ export default function Message({
   return (
     <div className={`${styles.row} ${!isAi ? styles.rowUser : ""}`}>
       <div className={`${styles.avatar} ${isAi ? styles.avatarAi : styles.avatarUser}`}>
-        {isAi ? "SANA" : "U"}
+        {isAi ? "V" : "U"}
       </div>
 
       <div className={`${styles.bubble} ${isAi ? styles.bubbleAi : styles.bubbleUser}`}>

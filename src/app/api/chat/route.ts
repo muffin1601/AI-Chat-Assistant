@@ -1,4 +1,4 @@
-import { google } from "@ai-sdk/google";
+import { groq } from "@ai-sdk/groq";
 import { streamText } from "ai";
 import { globalVectorStore } from "@/lib/vector-db";
 
@@ -29,9 +29,9 @@ export async function POST(req: Request) {
        ${contextString}`
     : "You are a helpful AI assistant. Provide helpful, accurate, and concise responses based on your general knowledge.";
 
-  // 4. Use Vercel AI SDK streamText for Gemini
+  // 4. Use Vercel AI SDK streamText for Groq
   const result = streamText({
-    model: google("gemini-1.5-flash"),
+    model: groq("llama-3.3-70b-versatile"),
     system: systemPrompt,
     messages: messages,
   });

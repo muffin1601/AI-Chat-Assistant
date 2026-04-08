@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
-import { groqStream, ChatMessage } from "@/lib/groq";
+import { google } from "@ai-sdk/google";
+import { streamText } from "ai";
 import { globalVectorStore } from "@/lib/vector-db";
 
 export async function POST(req: Request) {
-  const { messages, useRag }: { messages: ChatMessage[], useRag: boolean } = await req.json();
+  const { messages, useRag }: { messages: any[], useRag: boolean } = await req.json();
 
   // 1. Get the latest user message
   const userMessage = messages[messages.length - 1].content;
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   let contextString = "";
   
   if (useRag) {
-    // 2. Search for relevant context
+    // 2. Search for relevant context using your simplified search utility
     const contextDocs = await globalVectorStore.similaritySearch(userMessage, 4);
     contextString = contextDocs.length > 0
       ? contextDocs.map(d => `[Source: ${d.metadata.source}]\n${d.pageContent}`).join("\n\n---\n\n")
@@ -19,29 +19,22 @@ export async function POST(req: Request) {
   }
 
   // 3. Construct a context-aware system message
-  const systemPrompt: ChatMessage = {
-    role: "system",
-    content: useRag 
-      ? `You are a helpful AI assistant with access to uploaded documents. 
-         Use the following context to answer the user's question. 
-         If the context doesn't contain the answer, tell the user you don't have that information in your knowledge base but will try to help with general knowledge.
-         Always cite your sources if you use them.
+  const systemPrompt = useRag 
+    ? `You are a helpful AI assistant with access to uploaded documents. 
+       Always answer based STRICTLY on the provided context if possible.
+       If the context doesn't contain the answer, tell the user you don't have that information in your knowledge base but will try to help with general knowledge.
+       Always cite your sources if you use them.
 
-         CONTEXT:
-         ${contextString}`
-      : "You are a helpful AI assistant. Provide helpful, accurate, and concise responses based on your general knowledge."
-  };
+       CONTEXT:
+       ${contextString}`
+    : "You are a helpful AI assistant. Provide helpful, accurate, and concise responses based on your general knowledge.";
 
-  // 4. Prepend system prompt (or replace existing one)
-  const augmentedMessages = [systemPrompt, ...messages.filter(m => m.role !== 'system')];
-
-  const stream = await groqStream(augmentedMessages);
-
-  return new NextResponse(stream, {
-    headers: {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
-    },
+  // 4. Use Vercel AI SDK streamText for Gemini
+  const result = streamText({
+    model: google("gemini-1.5-flash"),
+    system: systemPrompt,
+    messages: messages,
   });
+
+  return result.toTextStreamResponse();
 }

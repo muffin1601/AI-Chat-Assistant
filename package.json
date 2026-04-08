@@ -9,9 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.60",
+    "@ai-sdk/react": "^3.0.155",
     "@langchain/openai": "^1.2.12",
     "@langchain/textsplitters": "^1.0.1",
     "@supabase/supabase-js": "^2.99.0",
+    "ai": "^6.0.153",
     "clsx": "^2.1.1",
     "framer-motion": "^12.35.1",
     "langchain": "^1.2.30",

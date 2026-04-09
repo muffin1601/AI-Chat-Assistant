@@ -3,17 +3,21 @@
 import { useState, useEffect } from "react";
 import styles from "./Sidebar.module.css";
 import { supabase } from "@/lib/supabase";
-import { MessageSquare, Plus, Trash2, UserCircle2, Sparkles } from "lucide-react";
+import { MessageSquare, Plus, Trash2, UserCircle2, Sparkles, X } from "lucide-react";
 import DocumentUpload from "./DocumentUpload";
 
 export default function Sidebar({ 
   onNewChat, 
   onSelectChat,
-  activeChatId 
+  activeChatId,
+  isOpen,
+  onClose
 }: { 
   onNewChat?: () => void;
   onSelectChat?: (id: string) => void;
   activeChatId?: string | null;
+  isOpen?: boolean;
+  onClose?: () => void;
 }) {
   const [chatList, setChatList] = useState<any[]>([]);
 
@@ -61,11 +65,16 @@ export default function Sidebar({
   }
 
   return (
-    <aside className={styles.sidebar}>
-      <div className={styles.logo}>
-        <Sparkles size={24} color="var(--accent)" />
-        VELORA A.I
-      </div>
+    <>
+      {isOpen && <div className={styles.overlay} onClick={onClose} />}
+      <aside className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ""}`}>
+        <button className={styles.closeButton} onClick={onClose}>
+          <X size={20} />
+        </button>
+        <div className={styles.logo}>
+          <Sparkles size={24} color="var(--accent)" />
+          VELORA A.I
+        </div>
 
       <button className={styles.newChat} onClick={onNewChat}>
         <Plus size={18} />
@@ -127,5 +136,6 @@ export default function Sidebar({
         <div className={styles.user}>Sara Siddiqui</div>
       </div>
     </aside>
+    </>
   );
 }

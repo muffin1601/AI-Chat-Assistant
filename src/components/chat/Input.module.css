@@ -12,6 +12,14 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+@media (max-width: 768px) {
+  .wrapper {
+    margin: 10px 16px 20px 16px;
+    padding: 6px 6px 6px 16px;
+    border-radius: 16px;
+  }
+}
+
 .wrapper:focus-within {
   border-color: var(--accent-glow);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 10px var(--accent-glow);

@@ -1,7 +1,7 @@
 .row {
   display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 12px;
+  margin-bottom: 16px;
   animation: fadeIn 0.4s ease-out forwards;
   opacity: 0;
   transform: translateY(10px);
@@ -31,6 +31,15 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+@media (max-width: 480px) {
+  .avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+}
+
 .avatarAi {
   background: linear-gradient(135deg, #2a2a35, #14141c);
   border: 1px solid var(--border-focus);
@@ -43,7 +52,7 @@
 }
 
 .bubble {
-  max-width: 80%;
+  max-width: 90%;
   line-height: 1.6;
   font-size: 15px;
   padding: 16px 20px;

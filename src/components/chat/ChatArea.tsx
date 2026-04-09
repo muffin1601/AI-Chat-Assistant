@@ -5,34 +5,51 @@ import Message from "./Message";
 import Input from "./Input";
 import { readStream } from "@/lib/stream";
 import styles from "./ChatArea.module.css";
+import { Menu, Sparkles, Database } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 type Msg = {
   role: "user" | "assistant";
   content: string;
 };
 
-import { supabase } from "@/lib/supabase";
-
-export default function ChatArea({ loadedChatId }: { loadedChatId?: string | null }) {
+export default function ChatArea({ 
+  loadedChatId,
+  onToggleSidebar 
+}: { 
+  loadedChatId?: string | null;
+  onToggleSidebar?: () => void;
+}) {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [streaming, setStreaming] = useState(false);
   const [useRag, setUseRag] = useState(true);
   const [chatId, setChatId] = useState<string | null>(loadedChatId || null);
+  const [chatTitle, setChatTitle] = useState("New Conversation");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Initialize or Load Chat Session
   useEffect(() => {
     async function initChat() {
       if (loadedChatId) {
-        // Load existing messages
-        const { data, error } = await supabase
-          .from('messages')
-          .select('role, content')
-          .eq('chat_id', loadedChatId)
-          .order('created_at', { ascending: true });
+        // Load existing messages and chat title
+        const [msgRes, chatRes] = await Promise.all([
+          supabase
+            .from('messages')
+            .select('role, content')
+            .eq('chat_id', loadedChatId)
+            .order('created_at', { ascending: true }),
+          supabase
+            .from('chats')
+            .select('title')
+            .eq('id', loadedChatId)
+            .single()
+        ]);
         
-        if (data) setMessages(data as Msg[]);
-        if (error) console.error("Error loading messages:", error);
+        if (msgRes.data) setMessages(msgRes.data as Msg[]);
+        if (chatRes.data) setChatTitle(chatRes.data.title);
+        
+        if (msgRes.error) console.error("Error loading messages:", msgRes.error);
+        if (chatRes.error) console.error("Error loading chat title:", chatRes.error);
       } else {
         // Create new chat session
         const { data, error } = await supabase
@@ -68,6 +85,7 @@ export default function ChatArea({ loadedChatId }: { loadedChatId?: string | nul
     // 2. Automagically update chat title if it's the first message
     if (messages.length === 0) {
       const title = text.length > 30 ? text.substring(0, 30) + "..." : text;
+      setChatTitle(title);
       await supabase
         .from('chats')
         .update({ title })
@@ -121,20 +139,27 @@ export default function ChatArea({ loadedChatId }: { loadedChatId?: string | nul
     <main className={styles.chat}>
       <header className={styles.header}>
         <div className={styles.chatInfo}>
-          <span className={styles.activeChat}>Current Session</span>
+          <button className={styles.menuButton} onClick={onToggleSidebar}>
+            <Menu size={20} />
+          </button>
+          <span className={styles.activeChat}>{chatTitle}</span>
         </div>
         
-        <div className={styles.modeToggle}>
-          <span className={!useRag ? styles.activeMode : ""}>General</span>
-          <label className={styles.switch}>
-            <input 
-              type="checkbox" 
-              checked={useRag} 
-              onChange={(e) => setUseRag(e.target.checked)}
-            />
-            <span className={styles.slider}></span>
-          </label>
-          <span className={useRag ? styles.activeMode : ""}>Knowledge Base</span>
+        <div className={`${styles.modeToggle} ${useRag ? styles.ragMode : styles.generalMode}`}>
+          <div 
+            className={`${styles.modeOption} ${!useRag ? styles.activeOption : ""}`}
+            onClick={() => setUseRag(false)}
+          >
+            <Sparkles size={14} />
+            <span>General</span>
+          </div>
+          <div 
+            className={`${styles.modeOption} ${useRag ? styles.activeOption : ""}`}
+            onClick={() => setUseRag(true)}
+          >
+            <Database size={14} />
+            <span>Knowledge</span>
+          </div>
         </div>
       </header>
 

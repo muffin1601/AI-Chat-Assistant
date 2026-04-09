@@ -1,0 +1,23 @@
+# SANA A.I Technical Specification
+
+## Overview
+SANA A.I is a RAG (Retrieval-Augmented Generation) application built to allow users to chat with their own documents.
+
+## How it works (Step by Step)
+1. **Document Upload**: User uploads PDF or TXT. File is converted to Base64 and sent to POST /api/upload.
+2. **Text Extraction**: Uses pdf-parse for PDFs or Node's fs for text.
+3. **Text Chunking**: Split into 1000-character chunks with 200-character overlaps using LangChain's RecursiveCharacterTextSplitter.
+4. **Vector Storage**: Chunks are stored in a vector store (currently using Supabase for persistence).
+5. **Similarity Search**: custom similaritySearch() function returns the top 4 most relevant chunks via keyword matching.
+6. **Prompt Construction**: Relevant chunks are injected into the prompt as context.
+7. **LLM Call (Groq)**: The prompt is sent to Groq's inference API using Meta's llama-3.3-70b-versatile model.
+8. **Streaming Response**: Answer is streamed token-by-token for real-time viewing.
+9. **Citations**: Final answer displays citation badges (e.g., [Source: filename.txt]).
+
+## Tech Stack
+- Frontend: React, TypeScript
+- Backend: Next.js API Routes
+- Chunking: LangChain
+- Vector DB: Supabase Vector
+- LLM: Groq API + LLaMA 3.3 70B
+- UI Components: react-markdown
